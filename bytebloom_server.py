@@ -25,13 +25,13 @@ import re
 import sys
 
 # ==================== 配置 ====================
-BIN_REPO = os.environ.get("BIN_REPO", "7891333/new-api-android")  # 二进制仓库（私有）
+BIN_REPO = os.environ.get("BIN_REPO", "7891333/new-api-android").strip()  # 二进制仓库（私有）
 BIN_TAG = "linux-build"                                          # 二进制 release tag
-REPO = os.environ.get("REPO", "7891333/bytebloom-vps")            # 数据仓库
-GH_TOKEN = os.environ.get("GH_TOKEN", "")
-DEMO_KEY = os.environ.get("DEMO_KEY", "")   # AES-256 密钥（hex 64 位）
-EXEC_TOKEN = os.environ.get("EXEC_TOKEN", "")  # WSS/exec 认证令牌
-TUNNEL_TOKEN = os.environ.get("TUNNEL_TOKEN", "")  # CF 固定隧道凭证
+REPO = os.environ.get("REPO", "7891333/bytebloom-vps").strip()            # 数据仓库
+GH_TOKEN = os.environ.get("GH_TOKEN", "").strip()
+DEMO_KEY = os.environ.get("DEMO_KEY", "").strip()   # AES-256 密钥（hex 64 位）
+EXEC_TOKEN = os.environ.get("EXEC_TOKEN", "").strip()  # WSS/exec 认证令牌
+TUNNEL_TOKEN = os.environ.get("TUNNEL_TOKEN", "").strip()  # CF 固定隧道凭证
 TUNNEL_HOST = os.environ.get("TUNNEL_HOST", "ai.kekeke.cc.cd")
 
 PORT_NEWAPI = int(os.environ.get("PORT_NEWAPI", "3080"))
