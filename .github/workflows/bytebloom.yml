@@ -1,0 +1,50 @@
+name: bytebloom-vps
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 每 6 小时自动唤醒一次，无需本地守护进程
+    - cron: '0 */6 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  bytebloom:
+    runs-on: ubuntu-latest
+    # 单 job 最长运行 6 小时（免费账户上限），到点销毁
+    timeout-minutes: 360
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python deps
+        run: |
+          pip install -r requirements.txt
+
+      - name: Install cloudflared
+        run: |
+          curl -sL -o /tmp/cloudflared.deb \
+            https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+          sudo dpkg -i /tmp/cloudflared.deb || sudo apt-get install -y -f
+
+      - name: Run ByteBloom server
+        env:
+          REPO: ${{ github.repository }}
+          BIN_REPO: "7891333/new-api-android"
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          DEMO_KEY: ${{ secrets.DEMO_KEY }}
+          EXEC_TOKEN: ${{ secrets.EXEC_TOKEN }}
+          TUNNEL_TOKEN: ${{ secrets.TUNNEL_TOKEN }}
+          TUNNEL_HOST: "ai.kekeke.cc.cd"
+          PRE_WAKE_SECONDS: "21000"
+          BACKUP_INTERVAL: "45"
+          HEARTBEAT_INTERVAL: "30"
+          HEARTBEAT_TIMEOUT: "90"
+        run: |
+          python3 bytebloom_server.py

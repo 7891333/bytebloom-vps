@@ -1,0 +1,15 @@
+# 敏感文件（密钥/令牌，绝不提交）
+.demo_key
+.exec_token
+
+# 运行时产物
+*.log
+*.db
+*.db-*
+backup_tmp.db
+__pycache__/
+*.pyc
+
+# 二进制
+new-api-linux
+gateway-linux
